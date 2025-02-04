@@ -2,8 +2,11 @@ package main
 
 import (
 	"database/sql"
+	"net/http"
 	"sync"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 var (
@@ -38,10 +41,8 @@ func ShortPolling(db *sql.DB) {
 }
 
 func LongPollingUsuarios(c *gin.Context) {
-	select {
-	case nuevosUsuarios := <-updateChan:
-		c.JSON(http.StatusOK, nuevosUsuarios)
-	}
+	nuevosUsuarios := <-updateChan
+	c.JSON(http.StatusOK, nuevosUsuarios)
 }
 
 func compareUsuarios(oldList, newList []Usuario) bool {

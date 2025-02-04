@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	db := ConnectDB()
+	db, _:= ConnectDB()
 	go ShortPolling(db)
 
 	r := gin.Default()
